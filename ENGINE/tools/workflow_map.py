@@ -44,7 +44,8 @@ import json
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 ENGINE_ROOT = os.path.dirname(os.path.dirname(TOOLS_DIR))  # tools → ENGINE → 项目根
 SKIP_DIRS = {"BOOKS", ".git", "__pycache__", ".claude", "ARCHIVE", "tools",
-             "_用词优化留档", "_架构优化留档"}  # tools=脚本/说明; _用词优化留档/_架构优化留档=维护工坊两分支的中间产物(数据,非工作流结构,同 BOOKS 一样排除)
+             "_用词优化留档", "_架构优化留档",
+             "02-范文例库", "04-优化留档"}  # tools=脚本/说明; _用词优化留档/_架构优化留档=维护工坊/文风工坊的中间产物; 02-范文例库/04-优化留档=文风包内的数据(范文例子/跑档产物,含第三方版权,同 BOOKS 一样排除)
 
 
 # ════════════════════════════════════════════════════════════════
@@ -377,6 +378,7 @@ var WORKSHOPS = [
   {name:"章节工坊",        cx:1330, cy:640, cat:"小说"},
   {name:"人工反馈修复工坊", cx:950,  cy:640, cat:"小说"},
   {name:"维护工坊",        cx:230,  cy:640, cat:"工作流"},
+  {name:"文风工坊",        cx:1330, cy:1020, cat:"小说"},
   {name:"文档导航",        cx:620,  cy:700, cat:"工作流"}
 ];
 var WS_BY_NAME = {}; WORKSHOPS.forEach(function(w){ WS_BY_NAME[w.name]=w; });
