@@ -1274,6 +1274,25 @@
       "has_frontmatter": true
     },
     {
+      "rel": "ENGINE/prompts/用词优化-分层学习.md",
+      "layer": "meta",
+      "title": "用词优化-分层学习",
+      "role": "总揽",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "范文学习的分层升级框架(在\"用词优化-总览\"之上):把单层(正文/文风)扩为全管线分层——分层逆向提取→外→内逐层盲生成(每层只用范文提取的更外层、对该层及更内层全盲)→逐层对比→分层归位回填。文风层是其第11层实例。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
       "rel": "ENGINE/prompts/世界线宏大推演.md",
       "layer": "prompt",
       "title": "世界线宏大推演",
@@ -1319,6 +1338,25 @@
       "工坊": "文风工坊",
       "服务": "小说",
       "简介": "从优秀完本网文提炼的写作方法参照系,给各步骤提供'怎么写好'的技法参考。(文风工坊①通用引擎层:纯抽象无例子、所有书共用)",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/knowledge/命名法.md",
+      "layer": "knowledge",
+      "title": "命名法",
+      "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "专有名词/人名/地名/术语的命名抽象法则:贴世界观调性、易读可辨、不生造现实已有物、音义搭配、克制不堆砌、全书一致。对治\"命名很怪/生造词/AI味名字\"。",
       "度量": {
         "调用次数": 0,
         "累计字数": 0,
@@ -1839,6 +1877,12 @@
     {
       "source": "ENGINE/templates/模板总览.md",
       "target": "ENGINE/templates/状态预算-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/templates/命名与术语表-模板.md",
+      "target": "ENGINE/knowledge/命名法.md",
       "type": "reads",
       "exists": true
     },
@@ -2426,7 +2470,25 @@
     },
     {
       "source": "ENGINE/prompts/用词优化-总览.md",
+      "target": "ENGINE/prompts/用词优化-分层学习.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-总览.md",
       "target": "ENGINE/文风库/_文风库总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/prompts/用词优化-总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/工作流总览.md",
       "type": "reads",
       "exists": true
     },
@@ -2469,6 +2531,12 @@
     {
       "source": "ENGINE/prompts/焦点卡.md",
       "target": "ENGINE/templates/焦点卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/命名法.md",
+      "target": "ENGINE/templates/命名与术语表-模板.md",
       "type": "reads",
       "exists": true
     },
