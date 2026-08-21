@@ -2493,6 +2493,120 @@
       "exists": true
     },
     {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/立项书-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/世界观设定卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/金手指卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/命名与术语表-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/knowledge/命名法.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/人物卡-核心-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/人物卡-普通-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/故事弧大纲-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/状态预算-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/关系情感状态卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/情绪蓄力卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/章纲节拍表-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/焦点卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/场面调度卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/templates/句意稿-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/knowledge/节奏与爽点.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/knowledge/情绪感知过滤器.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/knowledge/优秀网文写作法.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-分层学习.md",
+      "target": "ENGINE/文风库/_文风库总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
       "source": "ENGINE/prompts/世界线宏大推演.md",
       "target": "ENGINE/prompts/故事弧大纲.md",
       "type": "pipeline",
