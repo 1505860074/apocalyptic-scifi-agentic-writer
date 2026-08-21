@@ -27,6 +27,18 @@ reads:
 
 > 全项目步骤已统一为**纯中文名**（不再用 P/V/L/K/T 代号）。若在旧产物里看到 P6/V4/L2 之类代号，对照 `ENGINE/_命名映射表-已执行.md` 换算成中文名。
 
+## 快速上手：接管项目先读机器可读地图 `ENGINE/tools/graph.json`
+
+**接手本项目的第一步，先读 `ENGINE/tools/graph.json`。** 它是整套工作流的**机器可读地图**，一个文件就能让你在几秒内建立全局理解——有哪些步骤、分几个工坊、谁调用谁、每个 prompt 干嘛的——比通读一堆散文档快得多。怎么读：
+
+- **`nodes[]`**：每个节点（prompt / knowledge / 模板 / 文档）。看 `简介`（一句话它是干嘛的）、`工坊`（属于哪个工坊）、`服务`（`小说`=写书管线 / `工作流`=维护工作流自身）、`度量`（被调用/产出字数/token 情况）。
+- **`edges[]`**：节点间关系。`type:"pipeline"`=**管线下游**（执行先后顺序）；`type:"reads"`=**参考依赖**（这一步会加载哪些 knowledge/模板）。顺着 pipeline 边就能还原"从立项到成稿"的完整调用链。
+- **`issues`**：体检（孤儿/断链/循环），正常应全空。
+
+**读法**：先扫一遍 nodes 的 `简介`+`工坊`，对全局有个印象 → 顺 pipeline 边理清管线顺序 → 要动某一步时，再打开对应的 `ENGINE/prompts/xxx.md` 看细则。
+
+> `graph.json` 是**给 agent 读的**；`workflow_map.html` 是同一份数据的**人类可视化**（D3 图，浏览器打开），agent 不必读 html。两者都由 `python3 ENGINE/tools/workflow_map.py` 生成。
+
 ## 最重要的一条规则：修改意见 = 自己去检索上下文，不要等人贴材料
 
 作者对已写的正文提修改意见时（比如"改第X章第Y段，问题是XXX"），**你有文件读写和搜索能力，必须自己主动去定位并读取相关文件，不要要求作者手动粘贴**。具体怎么做，完整照着 `ENGINE/prompts/复审修改.md` 执行——里面写清楚了：
@@ -62,7 +74,7 @@ reads:
 **★ 硬规则(所有 agent / LLM 必须遵守,不是建议)**:只要改动了本项目任何**工作流 md**(ENGINE 下的 prompts / knowledge / templates,以及本文件、工作流总览等),**改完必须重新运行 `python3 ENGINE/tools/workflow_map.py`** 刷新依赖图(生成的 `workflow_map.html` 在**项目根目录**),并顺手维护改动文件的 frontmatter。跑完把更新后的 `workflow_map.html` 一起提交。
 
 - 每个 md 文件顶部用 frontmatter 声明依赖与分组(机器可读):`pipeline_next`(管线下游)、`reads`(参考的 knowledge/模板)都写**相对路径**;`工坊`(所属工坊,决定地图上聚在哪个虚线框)、`服务`(取值 `小说` 或 `工作流`,决定地图上是圆还是方——服务小说=写书管线,服务工作流=维护工坊/文档)。**新增或改动 prompt / knowledge / 模板时,顺手维护它的 frontmatter(含 工坊/服务)。** 现有工坊:立项工坊 / 架构工坊 / 故事弧工坊(含世界线推演,每弧第一步·架构校验后即触发) / 章节工坊 / 人工反馈修复工坊(以上服务小说) · 知识库 / 模板库(服务小说的共享资源) · 维护工坊 / 文档导航(服务工作流)。
-- 跑 `python3 ENGINE/tools/workflow_map.py` → 一键生成 `tools/graph.json`(依赖数据集)+ **项目根的 `workflow_map.html`**(D3 力导向可视化,可拖动/缩放)+ 控制台体检(孤儿 / 断链 / 循环)。**改工作流结构前先看图**,别改出断链或没人引用的死文件。
+- 跑 `python3 ENGINE/tools/workflow_map.py` → 一键生成 `tools/graph.json`(依赖数据集,**也是上手先读的机器可读地图,见顶部「快速上手」节**)+ **项目根的 `workflow_map.html`**(D3 力导向可视化,可拖动/缩放)+ 控制台体检(孤儿 / 断链 / 循环)。**改工作流结构前先看图**,别改出断链或没人引用的死文件。
 - 一次性批量补 frontmatter 的脚本:`ENGINE/tools/apply_frontmatter.py`(幂等,已有 frontmatter 的文件自动跳过)。
 - 三个总揽:`AGENTS.md`(本文件,顶层入口)、`ENGINE/工作流总览.md`(写书管线权威)、`ENGINE/knowledge/知识库地图.md`(knowledge 导航);模板层索引见 `ENGINE/templates/模板总览.md`。
 
