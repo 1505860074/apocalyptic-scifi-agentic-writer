@@ -80,8 +80,6 @@ DATA[P + "用词优化工坊.md"] = {"layer": "meta", "role": "元工具",
 # ── ENGINE 顶层 + 项目根 root 文件 ──
 DATA["ENGINE/工作流总览.md"] = {"layer": "root", "role": "总揽"}
 DATA["ENGINE/归档结构规范.md"] = {"layer": "root", "role": "规范"}
-DATA["ENGINE/_工作流审计报告.md"] = {"layer": "root", "role": "文档"}
-DATA["ENGINE/_工作流问题诊断-待反馈.md"] = {"layer": "root", "role": "文档"}
 DATA["ENGINE/_命名映射表-已执行.md"] = {"layer": "root", "role": "文档"}
 DATA["AGENTS.md"] = {"layer": "root", "role": "入口", "reads": ["ENGINE/工作流总览.md"]}
 DATA["README.md"] = {"layer": "root", "role": "文档"}

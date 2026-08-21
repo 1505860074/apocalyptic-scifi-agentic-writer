@@ -15,10 +15,12 @@
   #topbar b{color:#e6edf3;} #topbar .bad{color:#f85149;}
   #topbar .hint{margin-left:auto;color:#6e7681;font-size:11px;}
   #legend{position:absolute;top:52px;left:16px;background:rgba(22,27,34,.92);border:1px solid #30363d;
-    border-radius:10px;padding:12px 16px;font-size:12px;line-height:1.9;z-index:10;backdrop-filter:blur(10px);}
-  #legend h4{font-size:10px;color:#9eaab6;text-transform:uppercase;letter-spacing:1px;margin:6px 0 2px;}
+    border-radius:10px;padding:12px 16px;font-size:12px;line-height:1.85;z-index:10;backdrop-filter:blur(10px);max-height:calc(100vh - 80px);overflow:auto;}
+  #legend h4{font-size:10px;color:#9eaab6;text-transform:uppercase;letter-spacing:1px;margin:8px 0 3px;}
+  #legend h4:first-child{margin-top:0;}
   .lg{display:flex;align-items:center;gap:8px;}
   .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .sq{width:12px;height:12px;flex-shrink:0;}
   .ln{width:22px;height:0;flex-shrink:0;}
   #tooltip{position:absolute;pointer-events:none;background:rgba(22,27,34,.97);border:1px solid #30363d;
     border-radius:8px;padding:8px 12px;font-size:12px;max-width:340px;opacity:0;transition:opacity .12s;
@@ -27,59 +29,138 @@
   #btnfit{position:absolute;top:52px;right:16px;background:rgba(22,27,34,.95);color:#c9d1d9;
     border:1px solid #30363d;border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;z-index:10;}
   #btnfit:hover{background:#30363d;}
+  #infopanel{position:absolute;bottom:16px;left:16px;max-width:380px;background:rgba(22,27,34,.96);
+    border:1px solid #30363d;border-radius:10px;padding:12px 15px;font-size:12px;z-index:12;
+    backdrop-filter:blur(10px);opacity:0;transform:translateY(8px);transition:opacity .15s,transform .15s;}
+  #infopanel.on{opacity:1;transform:none;}
+  #infopanel .ip-name{font-weight:700;color:#e6edf3;font-size:14px;}
+  #infopanel .ip-meta{color:#9eaab6;margin-top:3px;}
+  #infopanel .ip-desc{color:#c9d1d9;margin-top:8px;line-height:1.65;}
+  #infopanel .ip-id{color:#6e7681;margin-top:8px;font-size:11px;word-break:break-all;}
+  #infopanel .ip-metrics{margin-top:8px;padding-top:8px;border-top:1px solid #21262d;color:#adbac7;line-height:1.7;}
+  #infopanel .ip-metrics b{color:#e6edf3;}
+  #btndata{position:absolute;top:52px;right:104px;background:rgba(22,27,34,.95);color:#c9d1d9;
+    border:1px solid #30363d;border-radius:8px;padding:6px 14px;font-size:12px;cursor:pointer;z-index:10;}
+  #btndata:hover{background:#30363d;}
+  #datapanel{position:absolute;top:90px;right:16px;bottom:16px;width:min(680px,92vw);background:rgba(22,27,34,.97);
+    border:1px solid #30363d;border-radius:10px;padding:10px 12px 14px;z-index:20;backdrop-filter:blur(10px);
+    display:none;flex-direction:column;box-shadow:0 12px 40px rgba(0,0,0,.6);}
+  #datapanel.on{display:flex;}
+  #datapanel h3{font-size:13px;color:#e6edf3;margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  #datapanel .dp-hint{color:#6e7681;font-size:11px;font-weight:400;}
+  #datapanel .dp-scroll{overflow:auto;flex:1;}
+  #datapanel table{border-collapse:collapse;width:100%;font-size:12px;}
+  #datapanel th,#datapanel td{padding:5px 8px;text-align:right;white-space:nowrap;border-bottom:1px solid #21262d;}
+  #datapanel th:first-child,#datapanel td:first-child{text-align:left;position:sticky;left:0;background:#161b22;}
+  #datapanel td:nth-child(2){text-align:left;}
+  #datapanel thead th{position:sticky;top:0;background:#1c2128;color:#9eaab6;cursor:pointer;user-select:none;z-index:1;}
+  #datapanel thead th:hover{color:#e6edf3;}
+  #datapanel tbody tr:hover{background:rgba(88,166,255,.08);}
+  #datapanel tbody tr.sel{background:rgba(242,204,96,.12);}
+  #datapanel .dp-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;}
   text.lbl{fill:#9eaab6;font-size:10px;pointer-events:none;paint-order:stroke;stroke:#0d1117;stroke-width:3px;}
+  text.boxlbl{font-size:13px;font-weight:700;pointer-events:none;paint-order:stroke;stroke:#0d1117;stroke-width:4px;}
+  #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#238636;color:#fff;
+    padding:8px 16px;border-radius:8px;font-size:13px;opacity:0;transition:opacity .2s;z-index:2000;
+    pointer-events:none;box-shadow:0 6px 24px rgba(0,0,0,.5);max-width:80%;}
+  #toast.on{opacity:1;}
 </style></head><body>
 <div id="topbar"></div>
 <div id="legend"></div>
 <button id="btnfit">重置视图</button>
+<button id="btndata">数据面板</button>
+<div id="datapanel"></div>
+<div id="infopanel"></div>
 <div id="tooltip"></div>
 <svg id="svg"></svg>
 <script>
 "use strict";
-var DATA = {"nodes": [{"id": "AGENTS.md", "label": "AGENTS", "layer": "root", "role": "入口", "orphan": false}, {"id": "README.md", "label": "README", "layer": "root", "role": "文档", "orphan": false}, {"id": "ENGINE/归档结构规范.md", "label": "归档结构规范", "layer": "root", "role": "规范", "orphan": false}, {"id": "ENGINE/_命名映射表-已执行.md", "label": "_命名映射表-已执行", "layer": "root", "role": "文档", "orphan": false}, {"id": "ENGINE/工作流总览.md", "label": "工作流总览", "layer": "root", "role": "总揽", "orphan": false}, {"id": "ENGINE/_工作流问题诊断-待反馈.md", "label": "_工作流问题诊断-待反馈", "layer": "root", "role": "文档", "orphan": false}, {"id": "ENGINE/_工作流审计报告.md", "label": "_工作流审计报告", "layer": "root", "role": "文档", "orphan": false}, {"id": "ENGINE/templates/情绪蓄力卡-模板.md", "label": "情绪蓄力卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/模板总览.md", "label": "模板总览", "layer": "template", "role": "总揽", "orphan": false}, {"id": "ENGINE/templates/演进状态卡-模板.md", "label": "演进状态卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/人物状态维度定义-模板.md", "label": "人物状态维度定义-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/人物卡-核心-模板.md", "label": "人物卡-核心-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/命名与术语表-模板.md", "label": "命名与术语表-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/世界观设定卡-模板.md", "label": "世界观设定卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/章节状态清单-模板.md", "label": "章节状态清单-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/立项书-模板.md", "label": "立项书-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/故事弧大纲-模板.md", "label": "故事弧大纲-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/世界基底-模板.md", "label": "世界基底-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/场面调度卡-模板.md", "label": "场面调度卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/伏笔登记表-模板.md", "label": "伏笔登记表-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/人物状态账本-模板.md", "label": "人物状态账本-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/关系情感状态卡-模板.md", "label": "关系情感状态卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/句意稿-模板.md", "label": "句意稿-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/世界线纪要-模板.md", "label": "世界线纪要-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/章纲节拍表-模板.md", "label": "章纲节拍表-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/故事种子-模板.md", "label": "故事种子-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/金手指卡-模板.md", "label": "金手指卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/状态预算-模板.md", "label": "状态预算-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/焦点卡-模板.md", "label": "焦点卡-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/templates/人物卡-普通-模板.md", "label": "人物卡-普通-模板", "layer": "template", "role": "模板", "orphan": false}, {"id": "ENGINE/prompts/最终交付检查.md", "label": "最终交付检查", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/故事弧状态预算.md", "label": "故事弧状态预算", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/故事弧大纲.md", "label": "故事弧大纲", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/立项车间-立项问答.md", "label": "立项车间-立项问答", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/章节状态分配.md", "label": "章节状态分配", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/人物种子.md", "label": "人物种子", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/润色定稿.md", "label": "润色定稿", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/正文生成.md", "label": "正文生成", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/用词优化工坊.md", "label": "用词优化工坊", "layer": "meta", "role": "元工具", "orphan": false}, {"id": "ENGINE/prompts/新建项目.md", "label": "新建项目", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/场面调度.md", "label": "场面调度", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/立项车间-立项自查.md", "label": "立项车间-立项自查", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/架构一致性校验.md", "label": "架构一致性校验", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/通用复审包.md", "label": "通用复审包", "layer": "prompt", "role": "元工具", "orphan": false}, {"id": "ENGINE/prompts/独立正文自查.md", "label": "独立正文自查", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/自查修正.md", "label": "自查修正", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/回归校验.md", "label": "回归校验", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/故事种子与世界基底.md", "label": "故事种子与世界基底", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/世界观与金手指.md", "label": "世界观与金手指", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/句意稿.md", "label": "句意稿", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/复审修改.md", "label": "复审修改", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/章纲节拍表.md", "label": "章纲节拍表", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/焦点卡校验.md", "label": "焦点卡校验", "layer": "prompt", "role": "校验", "orphan": false}, {"id": "ENGINE/prompts/世界线宏大推演.md", "label": "世界线宏大推演", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/焦点卡.md", "label": "焦点卡", "layer": "prompt", "role": "步骤", "orphan": false}, {"id": "ENGINE/prompts/卡文诊断.md", "label": "卡文诊断", "layer": "prompt", "role": "元工具", "orphan": false}, {"id": "ENGINE/knowledge/优秀网文写作法.md", "label": "优秀网文写作法", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/情绪感知过滤器.md", "label": "情绪感知过滤器", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/多视角叙事技巧.md", "label": "多视角叙事技巧", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/平台与题材规律.md", "label": "平台与题材规律", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/题材与立项候选库.md", "label": "题材与立项候选库", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/细化等级体系.md", "label": "细化等级体系", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/少年向与文风.md", "label": "少年向与文风", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/节奏与爽点.md", "label": "节奏与爽点", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/知识库地图.md", "label": "知识库地图", "layer": "knowledge", "role": "总揽", "orphan": false}, {"id": "ENGINE/knowledge/铁律总纲.md", "label": "铁律总纲", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/描写与逻辑规范.md", "label": "描写与逻辑规范", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/去AI味与叙事质感.md", "label": "去AI味与叙事质感", "layer": "knowledge", "role": "知识", "orphan": false}, {"id": "ENGINE/knowledge/桥段与伏笔.md", "label": "桥段与伏笔", "layer": "knowledge", "role": "知识", "orphan": false}], "edges": [{"source": "AGENTS.md", "target": "ENGINE/工作流总览.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/立项车间-立项问答.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/复审修改.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/世界线宏大推演.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/场面调度卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/伏笔登记表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/故事弧大纲-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/故事种子-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/关系情感状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/金手指卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/句意稿-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/立项书-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/情绪蓄力卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物卡-核心-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物卡-普通-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物状态维度定义-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物状态账本-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界观设定卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界基底-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/演进状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/章纲节拍表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/章节状态清单-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/状态预算-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/最终交付检查.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/prompts/章节状态分配.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/状态预算-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/情绪蓄力卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/关系情感状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/prompts/故事弧状态预算.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/templates/故事弧大纲-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/templates/伏笔登记表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项问答.md", "target": "ENGINE/prompts/立项车间-立项自查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项问答.md", "target": "ENGINE/templates/立项书-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项问答.md", "target": "ENGINE/knowledge/题材与立项候选库.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项问答.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章节状态分配.md", "target": "ENGINE/prompts/章纲节拍表.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/章节状态分配.md", "target": "ENGINE/templates/章节状态清单-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/prompts/故事种子与世界基底.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/templates/人物卡-核心-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/templates/人物卡-普通-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/prompts/最终交付检查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/knowledge/少年向与文风.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/prompts/独立正文自查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/多视角叙事技巧.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化工坊.md", "target": "ENGINE/prompts/场面调度.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化工坊.md", "target": "ENGINE/prompts/句意稿.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化工坊.md", "target": "ENGINE/prompts/正文生成.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化工坊.md", "target": "ENGINE/prompts/独立正文自查.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/新建项目.md", "target": "ENGINE/prompts/世界观与金手指.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/新建项目.md", "target": "ENGINE/templates/模板总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/prompts/句意稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/templates/场面调度卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项自查.md", "target": "ENGINE/prompts/新建项目.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/立项车间-立项自查.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/架构一致性校验.md", "target": "ENGINE/prompts/故事弧大纲.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/架构一致性校验.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/通用复审包.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/通用复审包.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/prompts/自查修正.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/prompts/润色定稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/优秀网文写作法.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/自查修正.md", "target": "ENGINE/prompts/润色定稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/回归校验.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/prompts/架构一致性校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/世界基底-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/故事种子-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/人物状态维度定义-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/人物状态账本-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/prompts/人物种子.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/世界观设定卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/金手指卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/prompts/正文生成.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/templates/句意稿-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/复审修改.md", "target": "ENGINE/prompts/回归校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/复审修改.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/prompts/焦点卡.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/knowledge/细化等级体系.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/templates/章纲节拍表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡校验.md", "target": "ENGINE/prompts/场面调度.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/世界线宏大推演.md", "target": "ENGINE/prompts/故事弧大纲.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/世界线宏大推演.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/prompts/焦点卡校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/细化等级体系.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}], "counts": {"nodes": 69, "edges": 109, "orphans": 0, "broken": 0, "cycles": 0}, "orphans": [], "broken": []};
+var DATA = {"nodes": [{"id": "AGENTS.md", "label": "AGENTS", "layer": "root", "role": "入口", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "接管本项目的 agent 的顶层入口说明。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "CLAUDE.md", "label": "CLAUDE", "layer": "root", "role": "入口", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "给 Claude Code 开机自动加载的薄入口,转发到 AGENTS.md,并提醒两条★收尾硬规则。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "README.md", "label": "README", "layer": "root", "role": "文档", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "项目总览说明文档。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/归档结构规范.md", "label": "归档结构规范", "layer": "root", "role": "规范", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "BOOKS 各书目录结构与文件命名的约定规范。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/_命名映射表-已执行.md", "label": "_命名映射表-已执行", "layer": "root", "role": "文档", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "旧代号(P/V/K/L)→中文名 的历史对照表,读旧产物时查它翻译。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/工作流总览.md", "label": "工作流总览", "layer": "root", "role": "总揽", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "写书管线的权威流程文档:定义各工坊步骤、顺序、加载策略与铁律。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/情绪蓄力卡-模板.md", "label": "情绪蓄力卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "情绪蓄力(QG/QM/QS 三级)的登记骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/模板总览.md", "label": "模板总览", "layer": "template", "role": "总揽", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "模板层的导航索引:各模板是什么、由谁产出。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/演进状态卡-模板.md", "label": "演进状态卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "全书演进状态(人物/资源/伏笔)的汇总卡骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/人物状态维度定义-模板.md", "label": "人物状态维度定义-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "本书追踪哪些人物状态维度的定义表骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/人物卡-核心-模板.md", "label": "人物卡-核心-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "主角人物卡(三层)的空白骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/命名与术语表-模板.md", "label": "命名与术语表-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "专有名词/术语的统一登记表骨架(唯一真相源)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/世界观设定卡-模板.md", "label": "世界观设定卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "世界观设定卡骨架(由 世界观与金手指 产出)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/章节状态清单-模板.md", "label": "章节状态清单-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "单章认领的状态清单骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/立项书-模板.md", "label": "立项书-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "立项书骨架(11个维度)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/故事弧大纲-模板.md", "label": "故事弧大纲-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "故事弧大纲骨架(含支线线程池+误导设计)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/世界基底-模板.md", "label": "世界基底-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "世界基底的空白模板(由 故事种子与世界基底 产出)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/场面调度卡-模板.md", "label": "场面调度卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "场面调度卡(站位/动作链/对话/内心/感官 五栏)骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/伏笔登记表-模板.md", "label": "伏笔登记表-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "伏笔/误导的三级登记表骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/人物状态账本-模板.md", "label": "人物状态账本-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "单个角色的状态账本(快照+流水)骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/关系情感状态卡-模板.md", "label": "关系情感状态卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "追踪角色间关系情感进展的卡片骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/句意稿-模板.md", "label": "句意稿-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "句意稿的空白骨架(逐条句意条目)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/世界线纪要-模板.md", "label": "世界线纪要-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "世界线纪要的空白模板,记录宏观世界演化(世界线推演 追加)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/章纲节拍表-模板.md", "label": "章纲节拍表-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "章纲节拍表骨架(节拍波浪+L级分配)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/故事种子-模板.md", "label": "故事种子-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "故事种子骨架(前三章方向)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/金手指卡-模板.md", "label": "金手指卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "金手指机制设定卡骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/状态预算-模板.md", "label": "状态预算-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "故事弧状态预算表骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/焦点卡-模板.md", "label": "焦点卡-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "焦点卡骨架(读者体验+N档+加载清单)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/templates/人物卡-普通-模板.md", "label": "人物卡-普通-模板", "layer": "template", "role": "模板", "gongfang": "模板库", "fuwu": "小说", "jianjie": "配角人物卡(双层)的空白骨架。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/最终交付检查.md", "label": "最终交付检查", "layer": "prompt", "role": "校验", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "润色定稿b 润色完成后，由独立 agent 做最后一轮交付检查。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/故事弧状态预算.md", "label": "故事弧状态预算", "layer": "prompt", "role": "步骤", "gongfang": "故事弧工坊", "fuwu": "小说", "jianjie": "基于 故事弧大纲，算清楚\"这一弧期间世界必须发生哪些状态变化\"——人员、资源、关系、伏笔。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/用词优化-对比差距.md", "label": "用词优化-对比差距", "layer": "meta", "role": "步骤", "gongfang": "维护工坊", "fuwu": "工作流", "jianjie": "用词优化第3步:盲重建稿vs原文,逐维度只比用词/句子/风格,输出\"抽象倾向\"差距清单(不抄原文例句)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/故事弧大纲.md", "label": "故事弧大纲", "layer": "prompt", "role": "步骤", "gongfang": "故事弧工坊", "fuwu": "小说", "jianjie": "基于世界线纪要的最新宏观素材 + 最近1-2个故事弧的结尾状态（滑动窗口，不读全部历史），设计下一个故事弧的大纲——颗粒度到主角+主要事件，但不到具体章节。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/章节状态分配.md", "label": "章节状态分配", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "从 故事弧状态预算 的状态预算里，为具体某一章认领\"这一章必须落地哪几项状态变化\"。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/用词优化-抽象优化与回填.md", "label": "用词优化-抽象优化与回填", "layer": "meta", "role": "步骤", "gongfang": "维护工坊", "fuwu": "工作流", "jianjie": "用词优化第4步(末步):差距过两道闸(防过拟合→定位到层)→抽象优化建议→经作者确认改文风层→可再跑2-3步闭环迭代。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/人物种子.md", "label": "人物种子", "layer": "prompt", "role": "步骤", "gongfang": "架构工坊", "fuwu": "小说", "jianjie": "为主角和1-2个核心配角建卡。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/润色定稿.md", "label": "润色定稿", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "对正文做打磨——出戏检查、去AI味、少年向定稿、标点、情感增色。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/正文生成.md", "label": "正文生成", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "手持焦点卡（焦点卡 产出 + 焦点卡校验 校验通过后），按加载清单写出本章正文。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/新建项目.md", "label": "新建项目", "layer": "prompt", "role": "步骤", "gongfang": "架构工坊", "fuwu": "小说", "jianjie": "从 ENGINE 模板初始化一个新的 BOOKS 子项目，创建完整目录结构和空白模板文件。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/用词优化-盲重建.md", "label": "用词优化-盲重建", "layer": "meta", "role": "步骤", "gongfang": "维护工坊", "fuwu": "工作流", "jianjie": "用词优化第2步:换一个没看过原文的agent,拿骨架走现有正向链盲写这一章,测工作流当前真实水平。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/场面调度.md", "label": "场面调度", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "焦点卡校验通过后、正文生成之前的一步。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/架构一致性校验.md", "label": "架构一致性校验", "layer": "prompt", "role": "校验", "gongfang": "架构工坊", "fuwu": "小说", "jianjie": "世界观与金手指+人物种子+故事种子与世界基底 全部完成后，独立审查五个设定文件之间是否存在逻辑矛盾。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/立项工坊-立项问答.md", "label": "立项工坊-立项问答", "layer": "prompt", "role": "步骤", "gongfang": "立项工坊", "fuwu": "小说", "jianjie": "开一本新书的第一步（排在 新建项目 建目录之前）。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/独立正文自查.md", "label": "独立正文自查", "layer": "prompt", "role": "校验", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "正文生成产出正文后，由独立agent调用做全面自查。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/自查修正.md", "label": "自查修正", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "根据 独立正文自查 独立自查报告中标记的问题，逐一修正正文。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/回归校验.md", "label": "回归校验", "layer": "prompt", "role": "校验", "gongfang": "人工反馈修复工坊", "fuwu": "小说", "jianjie": "复审修改 完成后，由独立 agent 检查修改是否破坏了原有的上下文一致性。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/用词优化-逆向提取.md", "label": "用词优化-逆向提取", "layer": "meta", "role": "步骤", "gongfang": "维护工坊", "fuwu": "工作流", "jianjie": "用词优化第1步:读范文一章,逆向蒸馏出骨架(情节/人物/节拍/内容点),剥掉一切用词腔调。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/故事种子与世界基底.md", "label": "故事种子与世界基底", "layer": "prompt", "role": "步骤", "gongfang": "架构工坊", "fuwu": "小说", "jianjie": "架构工坊最后一步。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/世界观与金手指.md", "label": "世界观与金手指", "layer": "prompt", "role": "步骤", "gongfang": "架构工坊", "fuwu": "小说", "jianjie": "同时定下本书世界的物理规则和主角的金手指。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/句意稿.md", "label": "句意稿", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "把本章《场面调度卡》的每一拍，展开成有序的一串\"句意条目\"——每一条只回答\"这一处要落实哪个具体内容点\"。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/复审修改.md", "label": "复审修改", "layer": "prompt", "role": "步骤", "gongfang": "人工反馈修复工坊", "fuwu": "小说", "jianjie": "你说\"第X章第Y段需要改，问题是XXX\"——我自动加载与这段相关的全部上下文，分析修改的影响范围，然后执行修改。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/章纲节拍表.md", "label": "章纲节拍表", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "基于 章节状态分配 产出的章节状态清单（这章必须落地什么），设计本章内部的节拍波浪——事件怎么排、L级怎么分配、情绪温度怎么走。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/焦点卡校验.md", "label": "焦点卡校验", "layer": "prompt", "role": "校验", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "焦点卡 生成焦点卡后，独立审查焦点卡的完整性和可执行性。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/立项工坊-立项自查.md", "label": "立项工坊-立项自查", "layer": "prompt", "role": "校验", "gongfang": "立项工坊", "fuwu": "小说", "jianjie": "立项书出稿后的一道轻量校验门（立项工坊最后一步）。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/用词优化-总览.md", "label": "用词优化-总览", "layer": "meta", "role": "总揽", "gongfang": "维护工坊", "fuwu": "工作流", "jianjie": "用词优化元工作流的总纲:4条铁律 + 4步管线 + 规模提示 + 迭代闭环说明,各步都读它。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/世界线宏大推演.md", "label": "世界线宏大推演", "layer": "prompt", "role": "步骤", "gongfang": "故事弧工坊", "fuwu": "小说", "jianjie": "从当前剧情状态向前推演宏大事件——不是具体故事，是势力、环境、威胁形态这类\"大局\"层面的演化。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/prompts/焦点卡.md", "label": "焦点卡", "layer": "prompt", "role": "步骤", "gongfang": "章节工坊", "fuwu": "小说", "jianjie": "基于 章纲节拍表 产出的章纲节拍表，设计\"读者的体验\"。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/优秀网文写作法.md", "label": "优秀网文写作法", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "从优秀完本网文提炼的写作方法参照系,给各步骤提供'怎么写好'的技法参考。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/情绪感知过滤器.md", "label": "情绪感知过滤器", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "情绪温度、N档、闲笔开关、情绪蓄力的默认表与判断标准。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/多视角叙事技巧.md", "label": "多视角叙事技巧", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "多视角(POV)章节的切换、信息差与叙事张力处理技巧。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/平台与题材规律.md", "label": "平台与题材规律", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "各网文平台的读者口味与题材套路规律,立项/世界观设计时参考。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/题材与立项候选库.md", "label": "题材与立项候选库", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "立项时可选的题材/命题候选库。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/细化等级体系.md", "label": "细化等级体系", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "L级(细化等级)的定义与分配标准,决定每段写多细。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/少年向与文风.md", "label": "少年向与文风", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "少年向/番茄题材的文风与尺度规范(仅该题材加载)。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/节奏与爽点.md", "label": "节奏与爽点", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "节奏控制、爽点/钩子设计与叙事顺序技法的规律。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/知识库地图.md", "label": "知识库地图", "layer": "knowledge", "role": "总揽", "gongfang": "文档导航", "fuwu": "工作流", "jianjie": "knowledge 层的导航索引:各知识文件是什么、何时加载。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/铁律总纲.md", "label": "铁律总纲", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "全流程最高优先级的铁律,所有步骤的优先级依据。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/描写与逻辑规范.md", "label": "描写与逻辑规范", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "描写颗粒度与因果逻辑的硬性规范,正文生成/自查时对照。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/去AI味与叙事质感.md", "label": "去AI味与叙事质感", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "诊断并消除AI腔/悬浮描写/伪具体比喻,让文字落地、有质感的规范。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}, {"id": "ENGINE/knowledge/桥段与伏笔.md", "label": "桥段与伏笔", "layer": "knowledge", "role": "知识", "gongfang": "知识库", "fuwu": "小说", "jianjie": "桥段库,以及伏笔/误导/延迟解释的手法库。", "metrics": {"调用次数": 0, "累计字数": 0, "累计token": 0, "返工次数": 0, "末次更新": "", "均字数": 0, "均token": 0}, "orphan": false}], "edges": [{"source": "AGENTS.md", "target": "ENGINE/工作流总览.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/立项工坊-立项问答.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/复审修改.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/prompts/世界线宏大推演.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "README.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/归档结构规范.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/knowledge/知识库地图.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/templates/模板总览.md", "type": "reads", "exists": true}, {"source": "AGENTS.md", "target": "ENGINE/_命名映射表-已执行.md", "type": "reads", "exists": true}, {"source": "CLAUDE.md", "target": "AGENTS.md", "type": "reads", "exists": true}, {"source": "README.md", "target": "AGENTS.md", "type": "reads", "exists": true}, {"source": "README.md", "target": "ENGINE/工作流总览.md", "type": "reads", "exists": true}, {"source": "README.md", "target": "ENGINE/归档结构规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/场面调度卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/伏笔登记表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/故事弧大纲-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/故事种子-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/关系情感状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/金手指卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/句意稿-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/立项书-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/情绪蓄力卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物卡-核心-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物卡-普通-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物状态维度定义-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/人物状态账本-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界观设定卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界基底-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/演进状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/章纲节拍表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/章节状态清单-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/templates/模板总览.md", "target": "ENGINE/templates/状态预算-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/最终交付检查.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/prompts/章节状态分配.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/状态预算-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/情绪蓄力卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧状态预算.md", "target": "ENGINE/templates/关系情感状态卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-对比差距.md", "target": "ENGINE/prompts/用词优化-抽象优化与回填.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/用词优化-对比差距.md", "target": "ENGINE/prompts/用词优化-总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/prompts/故事弧状态预算.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/templates/故事弧大纲-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事弧大纲.md", "target": "ENGINE/templates/伏笔登记表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章节状态分配.md", "target": "ENGINE/prompts/章纲节拍表.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/章节状态分配.md", "target": "ENGINE/templates/章节状态清单-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-抽象优化与回填.md", "target": "ENGINE/prompts/用词优化-总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/prompts/故事种子与世界基底.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/templates/人物卡-核心-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/人物种子.md", "target": "ENGINE/templates/人物卡-普通-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/prompts/最终交付检查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/knowledge/少年向与文风.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/润色定稿.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/prompts/独立正文自查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/正文生成.md", "target": "ENGINE/knowledge/多视角叙事技巧.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/新建项目.md", "target": "ENGINE/prompts/世界观与金手指.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/新建项目.md", "target": "ENGINE/templates/模板总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/用词优化-对比差距.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/用词优化-总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/场面调度.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/句意稿.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/正文生成.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-盲重建.md", "target": "ENGINE/prompts/独立正文自查.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/prompts/句意稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/场面调度.md", "target": "ENGINE/templates/场面调度卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/架构一致性校验.md", "target": "ENGINE/prompts/世界线宏大推演.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/架构一致性校验.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项问答.md", "target": "ENGINE/prompts/立项工坊-立项自查.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项问答.md", "target": "ENGINE/templates/立项书-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项问答.md", "target": "ENGINE/knowledge/题材与立项候选库.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项问答.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/prompts/自查修正.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/prompts/润色定稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/独立正文自查.md", "target": "ENGINE/knowledge/优秀网文写作法.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/自查修正.md", "target": "ENGINE/prompts/润色定稿.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/回归校验.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/用词优化-逆向提取.md", "target": "ENGINE/prompts/用词优化-盲重建.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/用词优化-逆向提取.md", "target": "ENGINE/prompts/用词优化-总览.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/prompts/架构一致性校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/世界基底-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/故事种子-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/人物状态维度定义-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/人物状态账本-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/故事种子与世界基底.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/prompts/人物种子.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/世界观设定卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/金手指卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界观与金手指.md", "target": "ENGINE/templates/命名与术语表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/prompts/正文生成.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/templates/句意稿-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/句意稿.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/复审修改.md", "target": "ENGINE/prompts/回归校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/复审修改.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/prompts/焦点卡.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/knowledge/细化等级体系.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/章纲节拍表.md", "target": "ENGINE/templates/章纲节拍表-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡校验.md", "target": "ENGINE/prompts/场面调度.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项自查.md", "target": "ENGINE/prompts/新建项目.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/立项工坊-立项自查.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/世界线宏大推演.md", "target": "ENGINE/prompts/故事弧大纲.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/世界线宏大推演.md", "target": "ENGINE/templates/世界线纪要-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/prompts/焦点卡校验.md", "type": "pipeline", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/细化等级体系.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/prompts/焦点卡.md", "target": "ENGINE/templates/焦点卡-模板.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/铁律总纲.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/去AI味与叙事质感.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/描写与逻辑规范.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/情绪感知过滤器.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/节奏与爽点.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/桥段与伏笔.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/多视角叙事技巧.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/细化等级体系.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/优秀网文写作法.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/少年向与文风.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/平台与题材规律.md", "type": "reads", "exists": true}, {"source": "ENGINE/knowledge/知识库地图.md", "target": "ENGINE/knowledge/题材与立项候选库.md", "type": "reads", "exists": true}], "counts": {"nodes": 70, "edges": 135, "orphans": 0, "broken": 0, "cycles": 0}, "orphans": [], "broken": []};
 var LAYER = {prompt:"#58a6ff",knowledge:"#3fb950",template:"#f0883e",root:"#8b949e",meta:"#d2a8ff",tool:"#8b949e"};
-var LAYER_CN = {prompt:"prompt 步骤/校验",knowledge:"knowledge 知识",template:"template 模板",root:"root 总揽/入口",meta:"meta 元工具"};
+var LAYER_CN = {prompt:"prompt 步骤",knowledge:"knowledge 知识",template:"template 模板",root:"root 文档/入口",meta:"meta 维护工坊"};
 
-// topbar
+// ── 工坊定义:只有这些"成框工坊"会画虚线框。成员摆成网格钉死在框里(见 layoutBoxed)。
+//    知识库/模板库 刻意不列在这里 → 它们不单独成框,靠 reads 边被自由拉到"使用它们的节点"附近。
+//    cx/cy=框中心(绝对虚拟坐标,布局与窗口大小无关,最终由"重置视图"自动缩放适配), cat=服务类别(决定框色调)。
+//    坐标已排开留白:上排是写书主管线(立项→架构→故事弧),右侧章节工坊,下方是服务工作流的两个框。
+var WORKSHOPS = [
+  {name:"立项工坊",        cx:180,  cy:230, cat:"小说"},
+  {name:"架构工坊",        cx:560,  cy:250, cat:"小说"},
+  {name:"故事弧工坊",      cx:940,  cy:210, cat:"小说"},
+  {name:"章节工坊",        cx:1330, cy:640, cat:"小说"},
+  {name:"人工反馈修复工坊", cx:950,  cy:640, cat:"小说"},
+  {name:"维护工坊",        cx:230,  cy:640, cat:"工作流"},
+  {name:"文档导航",        cx:620,  cy:700, cat:"工作流"}
+];
+var WS_BY_NAME = {}; WORKSHOPS.forEach(function(w){ WS_BY_NAME[w.name]=w; });
+// 框的配色:服务小说=偏蓝, 服务工作流=偏灰(在"框"这一层再强化一次服务区分)
+function boxStroke(cat){ return cat==="工作流" ? "#6e7681" : "#3a6ea5"; }
+function boxFill(cat){   return cat==="工作流" ? "rgba(139,148,166,.05)" : "rgba(88,166,255,.045)"; }
+function boxLabelColor(cat){ return cat==="工作流" ? "#8b949e" : "#6ea8ff"; }
+
+// ── topbar ──
 var c = DATA.counts;
 document.getElementById("topbar").innerHTML =
   '<b>工作流地图</b>'
-  + '<span>节点 <b>'+c.nodes+'</b></span><span>依赖边 <b>'+c.edges+'</b></span>'
+  + '<span>节点 <b>'+c.nodes+'</b></span><span>依赖边 <b>'+c.edges+'</b></span><span>工坊 <b>'+WORKSHOPS.length+'</b></span>'
   + '<span class="'+(c.orphans?'bad':'')+'">孤儿 <b>'+c.orphans+'</b></span>'
   + '<span class="'+(c.broken?'bad':'')+'">断链 <b>'+c.broken+'</b></span>'
   + '<span class="'+(c.cycles?'bad':'')+'">循环 <b>'+c.cycles+'</b></span>'
-  + '<span class="hint">滚轮缩放 · 拖节点(松手固定) · 双击解除固定 · 拖背景平移 · 悬停高亮　｜　由 ENGINE/tools/workflow_map.py 生成</span>';
+  + '<span class="hint">滚轮缩放 · 拖节点(松手固定) · 双击解除固定 · 拖背景平移 · 悬停高亮 · <b>点节点选中,Ctrl+C 复制名称+路径</b>　｜　由 ENGINE/tools/workflow_map.py 生成</span>';
 
-// legend
-var lg = '<h4>节点层</h4>';
-["prompt","knowledge","template","root","meta"].forEach(function(k){
+// ── legend ──
+var lg = '<h4>形状 = 服务对象</h4>'
+  + '<div class="lg"><span class="dot" style="background:#58a6ff"></span>○ 圆 = 服务小说(写书管线)</div>'
+  + '<div class="lg"><span class="sq" style="background:#161b22;border:1.5px solid #8b949e"></span>□ 方 = 服务工作流本身(维护工坊/文档)</div>'
+  + '<h4>颜色 = 节点层</h4>';
+["prompt","knowledge","template","meta","root"].forEach(function(k){
   lg += '<div class="lg"><span class="dot" style="background:'+LAYER[k]+'"></span>'+LAYER_CN[k]+'</div>';});
-lg += '<h4>边</h4>'
+lg += '<h4>框 = 工坊</h4>'
+  + '<div class="lg"><span class="sq" style="background:rgba(88,166,255,.045);border:1.5px dashed #3a6ea5"></span>写书工坊(服务小说)</div>'
+  + '<div class="lg"><span class="sq" style="background:rgba(139,148,166,.05);border:1.5px dashed #6e7681"></span>工作流自身(服务工作流)</div>'
+  + '<div class="lg" style="color:#6e7681;font-size:11px">知识/模板不单独成框,漂浮在使用它们的节点附近</div>'
+  + '<h4>边</h4>'
   + '<div class="lg"><span class="ln" style="border-top:2px solid #58a6ff"></span>管线 pipeline_next</div>'
   + '<div class="lg"><span class="ln" style="border-top:2px dashed #8b949e"></span>参考 reads</div>'
   + '<h4>体检</h4>'
   + '<div class="lg"><span class="dot" style="background:none;border:2px solid #f85149"></span>孤儿(无人引用)</div>';
 document.getElementById("legend").innerHTML = lg;
 
-// 构造节点/边;断链目标(不存在)建红色 ghost 节点
+// ── 构造节点/边;断链目标(不存在)建红色 ghost 节点 ──
 var nodeById = {};
 DATA.nodes.forEach(function(n){ nodeById[n.id]=n; });
 DATA.edges.forEach(function(e){
   if(!nodeById[e.target]){
-    nodeById[e.target] = {id:e.target, label:"❌ "+e.target.split("/").pop(), layer:"broken", orphan:false, ghost:true};
+    nodeById[e.target] = {id:e.target, label:"❌ "+e.target.split("/").pop(), layer:"broken",
+                          gongfang:"", fuwu:"", orphan:false, ghost:true};
     DATA.nodes.push(nodeById[e.target]);
   }
 });
 var nodes = DATA.nodes, links = DATA.edges;
+
 // degree 决定节点大小
 var deg = {};
 links.forEach(function(e){ deg[e.source]=(deg[e.source]||0)+1; deg[e.target]=(deg[e.target]||0)+1; });
 function radius(d){ return 6 + Math.min((deg[d.id]||0)*1.2, 12); }
-function fill(d){ return d.ghost ? "#f85149" : (LAYER[d.layer]||"#8b949e"); }
+function fill(d){
+  if(d.ghost) return "#f85149";
+  if(d.fuwu==="工作流") return "#161b22";     // 服务工作流 = 灰描边方块,填充用深底
+  return LAYER[d.layer]||"#8b949e";           // 服务小说 = 按层上色的实心
+}
+function stroke(d){
+  if(d===selected) return "#f2cc60";
+  if(d.orphan||d.ghost) return "#f85149";
+  if(d.fuwu==="工作流") return "#8b949e";      // 灰描边
+  return "rgba(255,255,255,.15)";
+}
+function strokeW(d){ return d===selected?4:(d.orphan?2.5:(d.fuwu==="工作流"?1.6:1)); }
 
 var svg = d3.select("#svg");
 var W = window.innerWidth, H = window.innerHeight;
 var gRoot = svg.append("g");
+var gBoxes = gRoot.append("g");   // 工坊框(画在最底层)
+var gLinks = gRoot.append("g");
+var gNodes = gRoot.append("g");
 
 // 箭头
 var defs = svg.append("defs");
@@ -91,51 +172,195 @@ var defs = svg.append("defs");
 
 // 缩放/平移
 var zoom = d3.zoom().scaleExtent([0.1,8]).on("zoom",function(ev){ gRoot.attr("transform",ev.transform); });
-svg.call(zoom);
+svg.call(zoom).on("dblclick.zoom", null);        // 关掉双击缩放,双击留给"解除固定节点"
+svg.on("click", function(){ selectNode(null); }); // 点背景 = 取消选中
+var selected = null;
+
+// ── 节点分两类:成框节点(网格排列并钉死在框里) vs 漂浮节点(知识库/模板库,靠 reads 边被拉到相关节点附近) ──
+function isBoxed(d){ return !!WS_BY_NAME[d.gongfang]; }
+
+// 成框工坊的成员表(排版/画框都用它)
+var membersOf = {};
+WORKSHOPS.forEach(function(w){ membersOf[w.name] = nodes.filter(function(n){return n.gongfang===w.name;}); });
+
+// ── 全局管线拓扑序(rank):沿 pipeline 边做 Kahn 排序,让每个框内节点能按管线先后排列 ──
+//    (此时 links 的 source/target 还是字符串 id;forceLink 尚未把它们替换成对象)
+var PRANK = (function(){
+  var ids = nodes.map(function(n){return n.id;});
+  var idx = {}; ids.forEach(function(id,i){ idx[id]=i; });   // 原始顺序,用于稳定排序/兜底
+  var padj = {}, indeg = {};
+  ids.forEach(function(id){ indeg[id]=0; });
+  links.forEach(function(e){
+    if(e.type!=="pipeline") return;
+    var s=e.source.id||e.source, t=e.target.id||e.target;
+    (padj[s]=padj[s]||[]).push(t); indeg[t]=(indeg[t]||0)+1;
+  });
+  var q = ids.filter(function(id){return indeg[id]===0;}).sort(function(a,b){return idx[a]-idx[b];});
+  var rank = {}, r = 0, seen = {};
+  while(q.length){
+    var u=q.shift(); if(seen[u])continue; seen[u]=1; rank[u]=r++;
+    (padj[u]||[]).forEach(function(v){ if(indeg[v]>0)indeg[v]--; if(indeg[v]<=0 && !seen[v]) q.push(v); });
+  }
+  ids.forEach(function(id){ if(!(id in rank)) rank[id]=99999; });  // 不在管线上的(维护工坊/文档)排到最后
+  return rank;
+})();
+
+// ── 把每个成框工坊的成员沿"等弧长阿基米德螺旋"摆开并钉死(fx/fy):
+//    框大小随节点数自适应、成员也不会被 reads 边拖出框(修掉"两个节点占一大块"的 bug) ──
+//    GAP/BSP 沿用老版全局螺旋的参数。
+var GAP = 100, BSP = 24, BOXPAD = 26;      // GAP=相邻节点弧长间距, BSP=每弧度半径增量, BOXPAD=框内边距
+function layoutBoxed(){
+  WORKSHOPS.forEach(function(w){
+    var ms = membersOf[w.name]; if(!ms.length) return;
+    ms.sort(function(a,b){ return PRANK[a.id]-PRANK[b.id]; });   // 按管线先后排,螺旋从内(先)到外(后)
+    // 生成等弧长螺旋点(相邻点弧长≈GAP,不随圈数变稀)
+    var pts = [], th = GAP/BSP;
+    for(var i=0;i<ms.length;i++){
+      var r = BSP*th;
+      pts.push([r*Math.cos(th), r*Math.sin(th)]);
+      th += GAP/Math.max(r,1);
+    }
+    // 中心化:让螺旋质心落在框中心,框才对称贴合
+    var mx=0, my=0; pts.forEach(function(p){mx+=p[0]; my+=p[1];}); mx/=pts.length; my/=pts.length;
+    ms.forEach(function(d,i){
+      d.fx = w.cx + pts[i][0] - mx;   // 钉死在螺旋点上
+      d.fy = w.cy + pts[i][1] - my;
+      d.x = d.fx; d.y = d.fy;
+    });
+  });
+}
+layoutBoxed();
+// 漂浮节点(知识库/模板库):初始撒在中部空白区,之后由 reads 边 + 斥力自行找位置
+nodes.forEach(function(n,i){
+  if(isBoxed(n)) return;
+  n.x = 820 + ((i*37) % 360 - 180);
+  n.y = 450 + ((i*53) % 260 - 130);
+});
 
 var sim = d3.forceSimulation(nodes)
   .force("link", d3.forceLink(links).id(function(d){return d.id;})
-     .distance(function(l){return l.type==="pipeline"?95:60;})
-     .strength(function(l){return l.type==="pipeline"?0.5:0.12;}))
-  .force("charge", d3.forceManyBody().strength(-320).distanceMax(500))
-  .force("collide", d3.forceCollide().radius(function(d){return radius(d)+8;}))
-  .force("center", d3.forceCenter(W/2,H/2))
-  .force("x", d3.forceX(W/2).strength(0.04))
-  .force("y", d3.forceY(H/2).strength(0.04));
+     .distance(function(l){return l.type==="pipeline"?80:64;})
+     .strength(function(l){return l.type==="pipeline"?0.15:0.08;}))
+  // 成框节点已钉死,把它们的斥力调小,免得把漂浮节点甩太远
+  .force("charge", d3.forceManyBody().strength(function(d){return isBoxed(d)?-40:-120;}).distanceMax(300))
+  .force("collide", d3.forceCollide().radius(function(d){return radius(d)+10;}))
+  // 只给漂浮节点很弱的中心引力,防止被斥力甩飞;成框节点钉死,不受这些力影响
+  .force("cx", d3.forceX(820).strength(function(d){return isBoxed(d)?0:0.025;}))
+  .force("cy", d3.forceY(450).strength(function(d){return isBoxed(d)?0:0.025;}));
 
-var link = gRoot.append("g").selectAll("line").data(links).enter().append("line")
+// ── 工坊框(虚线圆角矩形 + 工坊名),每帧根据成员实际位置重算 ──
+var box = gBoxes.selectAll("g.box").data(WORKSHOPS).enter().append("g").attr("class","box");
+box.append("rect").attr("rx",14).attr("ry",14).attr("fill",function(w){return boxFill(w.cat);})
+  .attr("stroke",function(w){return boxStroke(w.cat);}).attr("stroke-width",1.5).attr("stroke-dasharray","7,5");
+box.append("text").attr("class","boxlbl").attr("fill",function(w){return boxLabelColor(w.cat);})
+  .text(function(w){return w.name;});
+function updateBoxes(){
+  box.each(function(w){
+    var ms = membersOf[w.name];
+    var g = d3.select(this);
+    if(!ms.length){ g.style("display","none"); return; }
+    var pad = BOXPAD, x0=Infinity,y0=Infinity,x1=-Infinity,y1=-Infinity;
+    ms.forEach(function(n){ if(n.x<x0)x0=n.x; if(n.y<y0)y0=n.y; if(n.x>x1)x1=n.x; if(n.y>y1)y1=n.y; });
+    g.select("rect").attr("x",x0-pad).attr("y",y0-pad).attr("width",(x1-x0)+2*pad).attr("height",(y1-y0)+2*pad);
+    g.select("text").attr("x",x0-pad+12).attr("y",y0-pad+20);
+  });
+}
+
+// ── 边 ──
+var link = gLinks.selectAll("line").data(links).enter().append("line")
   .attr("stroke", function(d){return d.type==="pipeline"?"#58a6ff":"#8b949e";})
   .attr("stroke-width", function(d){return d.type==="pipeline"?1.8:1;})
   .attr("stroke-dasharray", function(d){return d.type==="pipeline"?null:"6,4";})
-  .attr("opacity", function(d){return d.type==="pipeline"?0.75:0.4;})
+  .attr("opacity", function(d){return d.type==="pipeline"?0.75:0.35;})
   .attr("marker-end", function(d){return d.type==="pipeline"?"url(#arrow-pipe)":"url(#arrow-read)";});
 
-var node = gRoot.append("g").selectAll("g").data(nodes).enter().append("g")
+// ── 节点:服务小说=圆, 服务工作流/ghost=方 ──
+var node = gNodes.selectAll("g").data(nodes).enter().append("g")
   .call(d3.drag().on("start",dS).on("drag",dD).on("end",dE));
-
-node.append("circle")
-  .attr("r", radius).attr("fill", fill)
-  .attr("stroke", function(d){return d.orphan?"#f85149":"rgba(255,255,255,.15)";})
-  .attr("stroke-width", function(d){return d.orphan?2.5:1;})
-  .attr("cursor","pointer");
-
+node.each(function(d){
+  var g = d3.select(this), r = radius(d);
+  if(d.fuwu==="工作流"){                                  // 方块
+    g.append("rect").attr("class","shape")
+      .attr("x",-r).attr("y",-r).attr("width",2*r).attr("height",2*r).attr("rx",2);
+  } else {                                                // 圆(含 ghost)
+    g.append("circle").attr("class","shape").attr("r",r);
+  }
+});
+node.select(".shape")
+  .attr("fill", fill).attr("stroke", stroke).attr("stroke-width", strokeW).attr("cursor","pointer");
 node.append("text").attr("class","lbl").attr("dx", function(d){return radius(d)+4;})
   .attr("dy","0.35em").text(function(d){return d.label;});
 
 node.on("mouseover",function(ev,d){ hi(d,true); tip(ev,d); })
     .on("mousemove", mv)
     .on("mouseout", function(ev,d){ hi(d,false); document.getElementById("tooltip").classList.remove("on"); })
-    .on("dblclick", function(ev,d){ d.fx=null; d.fy=null; sim.alpha(0.3).restart(); });
+    .on("dblclick", function(ev,d){ ev.stopPropagation(); d.fx=null; d.fy=null; sim.alpha(0.3).restart(); })
+    .on("click", function(ev,d){ ev.stopPropagation(); selectNode(d); });
 
 sim.on("tick", function(){
   link.attr("x1",function(d){return d.source.x;}).attr("y1",function(d){return d.source.y;})
       .attr("x2",function(d){return d.target.x;}).attr("y2",function(d){return d.target.y;});
   node.attr("transform", function(d){return "translate("+d.x+","+d.y+")";});
+  updateBoxes();
 });
 
 function dS(ev,d){ if(!ev.active) sim.alphaTarget(0.2).restart(); d.fx=d.x; d.fy=d.y; }
 function dD(ev,d){ d.fx=ev.x; d.fy=ev.y; }
 function dE(ev,d){ if(!ev.active) sim.alphaTarget(0); }  // 松手保留 fx/fy = 固定在拖到的位置
+
+// ── 选中节点 + Ctrl+C 复制"名称 + 相对路径" ──
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function selectNode(d){
+  selected = d;
+  node.select(".shape").attr("stroke", stroke).attr("stroke-width", strokeW);
+  var ip = document.getElementById("infopanel");
+  if(d && !d.ghost){
+    var meta = [d.fuwu?("服务"+d.fuwu):"", d.gongfang, d.layer, d.role].filter(Boolean).join(" · ");
+    var m = d.metrics||{};
+    var mrow = '<div class="ip-metrics">'
+      + '调用 <b>'+(m.调用次数||0)+'</b> 次　·　产出/改 <b>'+(m.累计字数||0)+'</b> 字　·　token <b>'+(m.累计token||0)+'</b>　·　返工 <b>'+(m.返工次数||0)+'</b>'
+      + '<br>均 <b>'+(m.均字数||0)+'</b> 字/次　·　均 <b>'+(m.均token||0)+'</b> token/次'
+      + (m.末次更新 ? '　·　末次 '+esc(m.末次更新) : '')
+      + '</div>';
+    ip.innerHTML = '<div class="ip-name">'+esc(d.label)+'</div>'
+      + '<div class="ip-meta">'+esc(meta)+'</div>'
+      + '<div class="ip-desc">'+esc(d.jianjie||"（暂无简介）")+'</div>'
+      + mrow
+      + '<div class="ip-id">'+esc(d.id)+'　·　Ctrl+C 复制名称+路径</div>';
+    ip.classList.add("on");
+  } else {
+    ip.classList.remove("on");
+  }
+  if(typeof renderDataPanel==="function") renderDataPanel();   // 同步高亮数据面板里的选中行
+}
+function copyText(t){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).catch(function(){ fbCopy(t); });
+  } else { fbCopy(t); }
+}
+function fbCopy(t){   // file:// 本地打开时 clipboard API 常被禁,用这个兜底
+  var ta=document.createElement("textarea"); ta.value=t;
+  ta.style.position="fixed"; ta.style.top="-1000px"; document.body.appendChild(ta);
+  ta.focus(); ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+}
+var _toast;
+function toast(msg){
+  if(!_toast){ _toast=document.createElement("div"); _toast.id="toast"; document.body.appendChild(_toast); }
+  _toast.textContent=msg; _toast.classList.add("on");
+  clearTimeout(_toast._t); _toast._t=setTimeout(function(){ _toast.classList.remove("on"); }, 1600);
+}
+document.addEventListener("keydown", function(ev){
+  if((ev.ctrlKey||ev.metaKey) && (ev.key==="c" || ev.key==="C")){
+    if(!selected) return;
+    var s = window.getSelection && String(window.getSelection());
+    if(s) return;                       // 用户正选中页面文字 → 走浏览器默认复制,不抢
+    ev.preventDefault();
+    copyText(selected.label + "\t" + selected.id);
+    toast("✓ 已复制: " + selected.label + "　" + selected.id);
+  }
+});
 
 // hover 高亮相连
 var adj = {};
@@ -150,13 +375,16 @@ function hi(d,on){
     link.style("opacity",function(l){var s=l.source.id,t=l.target.id;return (s===d.id||t===d.id)?0.95:0.04;});
   }else{
     node.style("opacity",1);
-    link.style("opacity",function(l){return l.type==="pipeline"?0.75:0.4;});
+    link.style("opacity",function(l){return l.type==="pipeline"?0.75:0.35;});
   }
 }
 var tt = document.getElementById("tooltip");
 function tip(ev,d){
+  var line2 = d.ghost ? "断链目标(文件不存在)"
+    : ((d.fuwu?("服务"+d.fuwu):"") + (d.gongfang?(" · "+d.gongfang):"") + " · " + d.layer
+       + (d.role?(" · "+d.role):"") + (d.orphan?" · ⚠孤儿":""));
   tt.innerHTML = '<div class="tt-name">'+d.label+'</div>'
-    + '<div class="tt-sub">'+(d.ghost?"断链目标(文件不存在)":(d.layer+(d.role?" · "+d.role:"")+(d.orphan?" · ⚠孤儿":"")))+'</div>'
+    + '<div class="tt-sub">'+line2+'</div>'
     + '<div class="tt-sub" style="color:#6e7681">'+d.id+'</div>';
   tt.classList.add("on"); mv(ev);
 }
@@ -167,13 +395,58 @@ function fit(){
   setTimeout(function(){
     var b = gRoot.node().getBBox();
     if(!b.width) return;
-    var s = Math.min(W/b.width, H/b.height)*0.85;
+    var s = Math.min(W/b.width, H/b.height)*0.9;
     s = Math.max(0.1, Math.min(s, 2));
     var tx = W/2 - s*(b.x+b.width/2), ty = H/2 - s*(b.y+b.height/2);
     svg.transition().duration(400).call(zoom.transform, d3.zoomIdentity.translate(tx,ty).scale(s));
   }, 60);
 }
 document.getElementById("btnfit").onclick = fit;
+
+// ── 数据面板:全节点度量表(可排序;点行=选中该节点) ──
+var DATANODES = nodes.filter(function(n){return !n.ghost;});
+var DPCOLS = [
+  {t:"节点",   get:function(n){return n.label;},            num:false},
+  {t:"工坊",   get:function(n){return n.gongfang||"";},      num:false},
+  {t:"调用",   get:function(n){return n.metrics.调用次数||0;}, num:true},
+  {t:"字数",   get:function(n){return n.metrics.累计字数||0;}, num:true},
+  {t:"token",  get:function(n){return n.metrics.累计token||0;},num:true},
+  {t:"返工",   get:function(n){return n.metrics.返工次数||0;}, num:true},
+  {t:"均字",   get:function(n){return n.metrics.均字数||0;},   num:true},
+  {t:"均token",get:function(n){return n.metrics.均token||0;},  num:true}
+];
+var dpSort = {col:3, desc:true};   // 默认按累计字数降序
+function renderDataPanel(){
+  var dp = document.getElementById("datapanel");
+  if(!dp.classList.contains("on")) return;
+  var rows = DATANODES.slice().sort(function(a,b){
+    var c=DPCOLS[dpSort.col], va=c.get(a), vb=c.get(b), r = c.num ? (va-vb) : String(va).localeCompare(String(vb));
+    return dpSort.desc ? -r : r;
+  });
+  var th = DPCOLS.map(function(c,i){
+    return '<th data-c="'+i+'">'+esc(c.t)+(i===dpSort.col?(dpSort.desc?" ▼":" ▲"):"")+'</th>';
+  }).join("");
+  var body = rows.map(function(n){
+    var sel = (selected && selected.id===n.id) ? ' class="sel"' : '';
+    var dot = '<span class="dp-dot" style="background:'+(LAYER[n.layer]||"#8b949e")+'"></span>';
+    var tds = DPCOLS.map(function(c,i){ var v=c.get(n); return '<td>'+(i===0? dot+esc(v):esc(v))+'</td>'; }).join("");
+    return '<tr data-id="'+esc(n.id)+'"'+sel+'>'+tds+'</tr>';
+  }).join("");
+  dp.innerHTML = '<h3>节点使用度量 <span class="dp-hint">点表头排序 · 点行选中节点 · 数值由 update_metrics.py 累积</span></h3>'
+    + '<div class="dp-scroll"><table><thead><tr>'+th+'</tr></thead><tbody>'+body+'</tbody></table></div>';
+  dp.querySelectorAll("thead th").forEach(function(el){
+    el.onclick=function(){ var c=+el.getAttribute("data-c");
+      if(dpSort.col===c) dpSort.desc=!dpSort.desc; else { dpSort.col=c; dpSort.desc = c>=2; }
+      renderDataPanel(); };
+  });
+  dp.querySelectorAll("tbody tr").forEach(function(el){
+    el.onclick=function(){ selectNode(nodeById[el.getAttribute("data-id")]||null); };
+  });
+}
+document.getElementById("btndata").onclick=function(){
+  document.getElementById("datapanel").classList.toggle("on"); renderDataPanel();
+};
+
 var _fitted = false;
-sim.on("end", function(){ if(!_fitted){ _fitted = true; fit(); } });  // 只在首次布局完成时自动看全一次;之后缩放/拖动都不再自动重置(要复位点右上"重置视图")
+sim.on("end", function(){ if(!_fitted){ _fitted = true; fit(); } });  // 首次布局完成自动看全一次
 </script></body></html>

@@ -5,6 +5,37 @@
       "layer": "root",
       "title": "AGENTS",
       "role": "入口",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "接管本项目的 agent 的顶层入口说明。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "CLAUDE.md",
+      "layer": "root",
+      "title": "CLAUDE",
+      "role": "入口",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "给 Claude Code 开机自动加载的薄入口,转发到 AGENTS.md,并提醒两条★收尾硬规则。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -12,6 +43,18 @@
       "layer": "root",
       "title": "README",
       "role": "文档",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "项目总览说明文档。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -19,6 +62,18 @@
       "layer": "root",
       "title": "归档结构规范",
       "role": "规范",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "BOOKS 各书目录结构与文件命名的约定规范。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -26,6 +81,18 @@
       "layer": "root",
       "title": "_命名映射表-已执行",
       "role": "文档",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "旧代号(P/V/K/L)→中文名 的历史对照表,读旧产物时查它翻译。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -33,20 +100,18 @@
       "layer": "root",
       "title": "工作流总览",
       "role": "总揽",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/_工作流问题诊断-待反馈.md",
-      "layer": "root",
-      "title": "_工作流问题诊断-待反馈",
-      "role": "文档",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/_工作流审计报告.md",
-      "layer": "root",
-      "title": "_工作流审计报告",
-      "role": "文档",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "写书管线的权威流程文档:定义各工坊步骤、顺序、加载策略与铁律。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -54,6 +119,18 @@
       "layer": "template",
       "title": "情绪蓄力卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "情绪蓄力(QG/QM/QS 三级)的登记骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -61,6 +138,18 @@
       "layer": "template",
       "title": "模板总览",
       "role": "总揽",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "模板层的导航索引:各模板是什么、由谁产出。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -68,6 +157,18 @@
       "layer": "template",
       "title": "演进状态卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "全书演进状态(人物/资源/伏笔)的汇总卡骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -75,6 +176,18 @@
       "layer": "template",
       "title": "人物状态维度定义-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "本书追踪哪些人物状态维度的定义表骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -82,6 +195,18 @@
       "layer": "template",
       "title": "人物卡-核心-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "主角人物卡(三层)的空白骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -89,6 +214,18 @@
       "layer": "template",
       "title": "命名与术语表-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "专有名词/术语的统一登记表骨架(唯一真相源)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -96,6 +233,18 @@
       "layer": "template",
       "title": "世界观设定卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "世界观设定卡骨架(由 世界观与金手指 产出)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -103,6 +252,18 @@
       "layer": "template",
       "title": "章节状态清单-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "单章认领的状态清单骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -110,6 +271,18 @@
       "layer": "template",
       "title": "立项书-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "立项书骨架(11个维度)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -117,6 +290,18 @@
       "layer": "template",
       "title": "故事弧大纲-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "故事弧大纲骨架(含支线线程池+误导设计)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -124,6 +309,18 @@
       "layer": "template",
       "title": "世界基底-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "世界基底的空白模板(由 故事种子与世界基底 产出)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -131,6 +328,18 @@
       "layer": "template",
       "title": "场面调度卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "场面调度卡(站位/动作链/对话/内心/感官 五栏)骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -138,6 +347,18 @@
       "layer": "template",
       "title": "伏笔登记表-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "伏笔/误导的三级登记表骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -145,6 +366,18 @@
       "layer": "template",
       "title": "人物状态账本-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "单个角色的状态账本(快照+流水)骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -152,6 +385,18 @@
       "layer": "template",
       "title": "关系情感状态卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "追踪角色间关系情感进展的卡片骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -159,6 +404,18 @@
       "layer": "template",
       "title": "句意稿-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "句意稿的空白骨架(逐条句意条目)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -166,6 +423,18 @@
       "layer": "template",
       "title": "世界线纪要-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "世界线纪要的空白模板,记录宏观世界演化(世界线推演 追加)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -173,6 +442,18 @@
       "layer": "template",
       "title": "章纲节拍表-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "章纲节拍表骨架(节拍波浪+L级分配)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -180,6 +461,18 @@
       "layer": "template",
       "title": "故事种子-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "故事种子骨架(前三章方向)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -187,6 +480,18 @@
       "layer": "template",
       "title": "金手指卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "金手指机制设定卡骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -194,6 +499,18 @@
       "layer": "template",
       "title": "状态预算-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "故事弧状态预算表骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -201,6 +518,18 @@
       "layer": "template",
       "title": "焦点卡-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "焦点卡骨架(读者体验+N档+加载清单)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -208,6 +537,18 @@
       "layer": "template",
       "title": "人物卡-普通-模板",
       "role": "模板",
+      "工坊": "模板库",
+      "服务": "小说",
+      "简介": "配角人物卡(双层)的空白骨架。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -215,6 +556,18 @@
       "layer": "prompt",
       "title": "最终交付检查",
       "role": "校验",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "润色定稿b 润色完成后，由独立 agent 做最后一轮交付检查。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -222,6 +575,37 @@
       "layer": "prompt",
       "title": "故事弧状态预算",
       "role": "步骤",
+      "工坊": "故事弧工坊",
+      "服务": "小说",
+      "简介": "基于 故事弧大纲，算清楚\"这一弧期间世界必须发生哪些状态变化\"——人员、资源、关系、伏笔。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/用词优化-对比差距.md",
+      "layer": "meta",
+      "title": "用词优化-对比差距",
+      "role": "步骤",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "用词优化第3步:盲重建稿vs原文,逐维度只比用词/句子/风格,输出\"抽象倾向\"差距清单(不抄原文例句)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -229,13 +613,18 @@
       "layer": "prompt",
       "title": "故事弧大纲",
       "role": "步骤",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/prompts/立项车间-立项问答.md",
-      "layer": "prompt",
-      "title": "立项车间-立项问答",
-      "role": "步骤",
+      "工坊": "故事弧工坊",
+      "服务": "小说",
+      "简介": "基于世界线纪要的最新宏观素材 + 最近1-2个故事弧的结尾状态（滑动窗口，不读全部历史），设计下一个故事弧的大纲——颗粒度到主角+主要事件，但不到具体章节。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -243,6 +632,37 @@
       "layer": "prompt",
       "title": "章节状态分配",
       "role": "步骤",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "从 故事弧状态预算 的状态预算里，为具体某一章认领\"这一章必须落地哪几项状态变化\"。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/用词优化-抽象优化与回填.md",
+      "layer": "meta",
+      "title": "用词优化-抽象优化与回填",
+      "role": "步骤",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "用词优化第4步(末步):差距过两道闸(防过拟合→定位到层)→抽象优化建议→经作者确认改文风层→可再跑2-3步闭环迭代。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -250,6 +670,18 @@
       "layer": "prompt",
       "title": "人物种子",
       "role": "步骤",
+      "工坊": "架构工坊",
+      "服务": "小说",
+      "简介": "为主角和1-2个核心配角建卡。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -257,6 +689,18 @@
       "layer": "prompt",
       "title": "润色定稿",
       "role": "步骤",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "对正文做打磨——出戏检查、去AI味、少年向定稿、标点、情感增色。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -264,13 +708,18 @@
       "layer": "prompt",
       "title": "正文生成",
       "role": "步骤",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/prompts/用词优化工坊.md",
-      "layer": "meta",
-      "title": "用词优化工坊",
-      "role": "元工具",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "手持焦点卡（焦点卡 产出 + 焦点卡校验 校验通过后），按加载清单写出本章正文。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -278,6 +727,37 @@
       "layer": "prompt",
       "title": "新建项目",
       "role": "步骤",
+      "工坊": "架构工坊",
+      "服务": "小说",
+      "简介": "从 ENGINE 模板初始化一个新的 BOOKS 子项目，创建完整目录结构和空白模板文件。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/用词优化-盲重建.md",
+      "layer": "meta",
+      "title": "用词优化-盲重建",
+      "role": "步骤",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "用词优化第2步:换一个没看过原文的agent,拿骨架走现有正向链盲写这一章,测工作流当前真实水平。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -285,13 +765,18 @@
       "layer": "prompt",
       "title": "场面调度",
       "role": "步骤",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/prompts/立项车间-立项自查.md",
-      "layer": "prompt",
-      "title": "立项车间-立项自查",
-      "role": "校验",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "焦点卡校验通过后、正文生成之前的一步。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -299,13 +784,37 @@
       "layer": "prompt",
       "title": "架构一致性校验",
       "role": "校验",
+      "工坊": "架构工坊",
+      "服务": "小说",
+      "简介": "世界观与金手指+人物种子+故事种子与世界基底 全部完成后，独立审查五个设定文件之间是否存在逻辑矛盾。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
-      "rel": "ENGINE/prompts/通用复审包.md",
+      "rel": "ENGINE/prompts/立项工坊-立项问答.md",
       "layer": "prompt",
-      "title": "通用复审包",
-      "role": "元工具",
+      "title": "立项工坊-立项问答",
+      "role": "步骤",
+      "工坊": "立项工坊",
+      "服务": "小说",
+      "简介": "开一本新书的第一步（排在 新建项目 建目录之前）。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -313,6 +822,18 @@
       "layer": "prompt",
       "title": "独立正文自查",
       "role": "校验",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "正文生成产出正文后，由独立agent调用做全面自查。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -320,6 +841,18 @@
       "layer": "prompt",
       "title": "自查修正",
       "role": "步骤",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "根据 独立正文自查 独立自查报告中标记的问题，逐一修正正文。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -327,6 +860,37 @@
       "layer": "prompt",
       "title": "回归校验",
       "role": "校验",
+      "工坊": "人工反馈修复工坊",
+      "服务": "小说",
+      "简介": "复审修改 完成后，由独立 agent 检查修改是否破坏了原有的上下文一致性。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/用词优化-逆向提取.md",
+      "layer": "meta",
+      "title": "用词优化-逆向提取",
+      "role": "步骤",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "用词优化第1步:读范文一章,逆向蒸馏出骨架(情节/人物/节拍/内容点),剥掉一切用词腔调。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -334,6 +898,18 @@
       "layer": "prompt",
       "title": "故事种子与世界基底",
       "role": "步骤",
+      "工坊": "架构工坊",
+      "服务": "小说",
+      "简介": "架构工坊最后一步。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -341,6 +917,18 @@
       "layer": "prompt",
       "title": "世界观与金手指",
       "role": "步骤",
+      "工坊": "架构工坊",
+      "服务": "小说",
+      "简介": "同时定下本书世界的物理规则和主角的金手指。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -348,6 +936,18 @@
       "layer": "prompt",
       "title": "句意稿",
       "role": "步骤",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "把本章《场面调度卡》的每一拍，展开成有序的一串\"句意条目\"——每一条只回答\"这一处要落实哪个具体内容点\"。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -355,6 +955,18 @@
       "layer": "prompt",
       "title": "复审修改",
       "role": "步骤",
+      "工坊": "人工反馈修复工坊",
+      "服务": "小说",
+      "简介": "你说\"第X章第Y段需要改，问题是XXX\"——我自动加载与这段相关的全部上下文，分析修改的影响范围，然后执行修改。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -362,6 +974,18 @@
       "layer": "prompt",
       "title": "章纲节拍表",
       "role": "步骤",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "基于 章节状态分配 产出的章节状态清单（这章必须落地什么），设计本章内部的节拍波浪——事件怎么排、L级怎么分配、情绪温度怎么走。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -369,6 +993,56 @@
       "layer": "prompt",
       "title": "焦点卡校验",
       "role": "校验",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "焦点卡 生成焦点卡后，独立审查焦点卡的完整性和可执行性。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/立项工坊-立项自查.md",
+      "layer": "prompt",
+      "title": "立项工坊-立项自查",
+      "role": "校验",
+      "工坊": "立项工坊",
+      "服务": "小说",
+      "简介": "立项书出稿后的一道轻量校验门（立项工坊最后一步）。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
+      "has_frontmatter": true
+    },
+    {
+      "rel": "ENGINE/prompts/用词优化-总览.md",
+      "layer": "meta",
+      "title": "用词优化-总览",
+      "role": "总揽",
+      "工坊": "维护工坊",
+      "服务": "工作流",
+      "简介": "用词优化元工作流的总纲:4条铁律 + 4步管线 + 规模提示 + 迭代闭环说明,各步都读它。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -376,6 +1050,18 @@
       "layer": "prompt",
       "title": "世界线宏大推演",
       "role": "步骤",
+      "工坊": "故事弧工坊",
+      "服务": "小说",
+      "简介": "从当前剧情状态向前推演宏大事件——不是具体故事，是势力、环境、威胁形态这类\"大局\"层面的演化。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -383,13 +1069,18 @@
       "layer": "prompt",
       "title": "焦点卡",
       "role": "步骤",
-      "has_frontmatter": true
-    },
-    {
-      "rel": "ENGINE/prompts/卡文诊断.md",
-      "layer": "prompt",
-      "title": "卡文诊断",
-      "role": "元工具",
+      "工坊": "章节工坊",
+      "服务": "小说",
+      "简介": "基于 章纲节拍表 产出的章纲节拍表，设计\"读者的体验\"。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -397,6 +1088,18 @@
       "layer": "knowledge",
       "title": "优秀网文写作法",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "从优秀完本网文提炼的写作方法参照系,给各步骤提供'怎么写好'的技法参考。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -404,6 +1107,18 @@
       "layer": "knowledge",
       "title": "情绪感知过滤器",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "情绪温度、N档、闲笔开关、情绪蓄力的默认表与判断标准。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -411,6 +1126,18 @@
       "layer": "knowledge",
       "title": "多视角叙事技巧",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "多视角(POV)章节的切换、信息差与叙事张力处理技巧。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -418,6 +1145,18 @@
       "layer": "knowledge",
       "title": "平台与题材规律",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "各网文平台的读者口味与题材套路规律,立项/世界观设计时参考。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -425,6 +1164,18 @@
       "layer": "knowledge",
       "title": "题材与立项候选库",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "立项时可选的题材/命题候选库。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -432,6 +1183,18 @@
       "layer": "knowledge",
       "title": "细化等级体系",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "L级(细化等级)的定义与分配标准,决定每段写多细。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -439,6 +1202,18 @@
       "layer": "knowledge",
       "title": "少年向与文风",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "少年向/番茄题材的文风与尺度规范(仅该题材加载)。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -446,6 +1221,18 @@
       "layer": "knowledge",
       "title": "节奏与爽点",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "节奏控制、爽点/钩子设计与叙事顺序技法的规律。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -453,6 +1240,18 @@
       "layer": "knowledge",
       "title": "知识库地图",
       "role": "总揽",
+      "工坊": "文档导航",
+      "服务": "工作流",
+      "简介": "knowledge 层的导航索引:各知识文件是什么、何时加载。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -460,6 +1259,18 @@
       "layer": "knowledge",
       "title": "铁律总纲",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "全流程最高优先级的铁律,所有步骤的优先级依据。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -467,6 +1278,18 @@
       "layer": "knowledge",
       "title": "描写与逻辑规范",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "描写颗粒度与因果逻辑的硬性规范,正文生成/自查时对照。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -474,6 +1297,18 @@
       "layer": "knowledge",
       "title": "去AI味与叙事质感",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "诊断并消除AI腔/悬浮描写/伪具体比喻,让文字落地、有质感的规范。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     },
     {
@@ -481,6 +1316,18 @@
       "layer": "knowledge",
       "title": "桥段与伏笔",
       "role": "知识",
+      "工坊": "知识库",
+      "服务": "小说",
+      "简介": "桥段库,以及伏笔/误导/延迟解释的手法库。",
+      "度量": {
+        "调用次数": 0,
+        "累计字数": 0,
+        "累计token": 0,
+        "返工次数": 0,
+        "末次更新": "",
+        "均字数": 0,
+        "均token": 0
+      },
       "has_frontmatter": true
     }
   ],
@@ -493,7 +1340,7 @@
     },
     {
       "source": "AGENTS.md",
-      "target": "ENGINE/prompts/立项车间-立项问答.md",
+      "target": "ENGINE/prompts/立项工坊-立项问答.md",
       "type": "reads",
       "exists": true
     },
@@ -506,6 +1353,60 @@
     {
       "source": "AGENTS.md",
       "target": "ENGINE/prompts/世界线宏大推演.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "AGENTS.md",
+      "target": "README.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "AGENTS.md",
+      "target": "ENGINE/归档结构规范.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "AGENTS.md",
+      "target": "ENGINE/knowledge/知识库地图.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "AGENTS.md",
+      "target": "ENGINE/templates/模板总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "AGENTS.md",
+      "target": "ENGINE/_命名映射表-已执行.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "CLAUDE.md",
+      "target": "AGENTS.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "AGENTS.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "ENGINE/工作流总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "README.md",
+      "target": "ENGINE/归档结构规范.md",
       "type": "reads",
       "exists": true
     },
@@ -678,6 +1579,18 @@
       "exists": true
     },
     {
+      "source": "ENGINE/prompts/用词优化-对比差距.md",
+      "target": "ENGINE/prompts/用词优化-抽象优化与回填.md",
+      "type": "pipeline",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-对比差距.md",
+      "target": "ENGINE/prompts/用词优化-总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
       "source": "ENGINE/prompts/故事弧大纲.md",
       "target": "ENGINE/prompts/故事弧状态预算.md",
       "type": "pipeline",
@@ -708,30 +1621,6 @@
       "exists": true
     },
     {
-      "source": "ENGINE/prompts/立项车间-立项问答.md",
-      "target": "ENGINE/prompts/立项车间-立项自查.md",
-      "type": "pipeline",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/立项车间-立项问答.md",
-      "target": "ENGINE/templates/立项书-模板.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/立项车间-立项问答.md",
-      "target": "ENGINE/knowledge/题材与立项候选库.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/立项车间-立项问答.md",
-      "target": "ENGINE/knowledge/平台与题材规律.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
       "source": "ENGINE/prompts/章节状态分配.md",
       "target": "ENGINE/prompts/章纲节拍表.md",
       "type": "pipeline",
@@ -740,6 +1629,12 @@
     {
       "source": "ENGINE/prompts/章节状态分配.md",
       "target": "ENGINE/templates/章节状态清单-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-抽象优化与回填.md",
+      "target": "ENGINE/prompts/用词优化-总览.md",
       "type": "reads",
       "exists": true
     },
@@ -828,30 +1723,6 @@
       "exists": true
     },
     {
-      "source": "ENGINE/prompts/用词优化工坊.md",
-      "target": "ENGINE/prompts/场面调度.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/用词优化工坊.md",
-      "target": "ENGINE/prompts/句意稿.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/用词优化工坊.md",
-      "target": "ENGINE/prompts/正文生成.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/用词优化工坊.md",
-      "target": "ENGINE/prompts/独立正文自查.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
       "source": "ENGINE/prompts/新建项目.md",
       "target": "ENGINE/prompts/世界观与金手指.md",
       "type": "pipeline",
@@ -860,6 +1731,42 @@
     {
       "source": "ENGINE/prompts/新建项目.md",
       "target": "ENGINE/templates/模板总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/用词优化-对比差距.md",
+      "type": "pipeline",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/用词优化-总览.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/场面调度.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/句意稿.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/正文生成.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-盲重建.md",
+      "target": "ENGINE/prompts/独立正文自查.md",
       "type": "reads",
       "exists": true
     },
@@ -882,20 +1789,8 @@
       "exists": true
     },
     {
-      "source": "ENGINE/prompts/立项车间-立项自查.md",
-      "target": "ENGINE/prompts/新建项目.md",
-      "type": "pipeline",
-      "exists": true
-    },
-    {
-      "source": "ENGINE/prompts/立项车间-立项自查.md",
-      "target": "ENGINE/knowledge/平台与题材规律.md",
-      "type": "reads",
-      "exists": true
-    },
-    {
       "source": "ENGINE/prompts/架构一致性校验.md",
-      "target": "ENGINE/prompts/故事弧大纲.md",
+      "target": "ENGINE/prompts/世界线宏大推演.md",
       "type": "pipeline",
       "exists": true
     },
@@ -906,14 +1801,26 @@
       "exists": true
     },
     {
-      "source": "ENGINE/prompts/通用复审包.md",
-      "target": "ENGINE/knowledge/描写与逻辑规范.md",
+      "source": "ENGINE/prompts/立项工坊-立项问答.md",
+      "target": "ENGINE/prompts/立项工坊-立项自查.md",
+      "type": "pipeline",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/立项工坊-立项问答.md",
+      "target": "ENGINE/templates/立项书-模板.md",
       "type": "reads",
       "exists": true
     },
     {
-      "source": "ENGINE/prompts/通用复审包.md",
-      "target": "ENGINE/knowledge/去AI味与叙事质感.md",
+      "source": "ENGINE/prompts/立项工坊-立项问答.md",
+      "target": "ENGINE/knowledge/题材与立项候选库.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/立项工坊-立项问答.md",
+      "target": "ENGINE/knowledge/平台与题材规律.md",
       "type": "reads",
       "exists": true
     },
@@ -956,6 +1863,18 @@
     {
       "source": "ENGINE/prompts/回归校验.md",
       "target": "ENGINE/knowledge/铁律总纲.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-逆向提取.md",
+      "target": "ENGINE/prompts/用词优化-盲重建.md",
+      "type": "pipeline",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/用词优化-逆向提取.md",
+      "target": "ENGINE/prompts/用词优化-总览.md",
       "type": "reads",
       "exists": true
     },
@@ -1098,6 +2017,18 @@
       "exists": true
     },
     {
+      "source": "ENGINE/prompts/立项工坊-立项自查.md",
+      "target": "ENGINE/prompts/新建项目.md",
+      "type": "pipeline",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/prompts/立项工坊-立项自查.md",
+      "target": "ENGINE/knowledge/平台与题材规律.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
       "source": "ENGINE/prompts/世界线宏大推演.md",
       "target": "ENGINE/prompts/故事弧大纲.md",
       "type": "pipeline",
@@ -1136,6 +2067,78 @@
     {
       "source": "ENGINE/prompts/焦点卡.md",
       "target": "ENGINE/templates/焦点卡-模板.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/铁律总纲.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/去AI味与叙事质感.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/描写与逻辑规范.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/情绪感知过滤器.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/节奏与爽点.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/桥段与伏笔.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/多视角叙事技巧.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/细化等级体系.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/优秀网文写作法.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/少年向与文风.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/平台与题材规律.md",
+      "type": "reads",
+      "exists": true
+    },
+    {
+      "source": "ENGINE/knowledge/知识库地图.md",
+      "target": "ENGINE/knowledge/题材与立项候选库.md",
       "type": "reads",
       "exists": true
     }
