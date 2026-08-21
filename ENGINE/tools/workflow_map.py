@@ -43,7 +43,8 @@ import json
 # ── 路径:脚本在 ENGINE/tools/ 下;扫描范围=项目根(含 AGENTS.md/README.md),排除 BOOKS ──
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 ENGINE_ROOT = os.path.dirname(os.path.dirname(TOOLS_DIR))  # tools → ENGINE → 项目根
-SKIP_DIRS = {"BOOKS", ".git", "__pycache__", ".claude", "ARCHIVE", "tools"}  # tools 下是脚本/说明,不算工作流节点
+SKIP_DIRS = {"BOOKS", ".git", "__pycache__", ".claude", "ARCHIVE", "tools",
+             "_用词优化留档", "_架构优化留档"}  # tools=脚本/说明; _用词优化留档/_架构优化留档=维护工坊两分支的中间产物(数据,非工作流结构,同 BOOKS 一样排除)
 
 
 # ════════════════════════════════════════════════════════════════
