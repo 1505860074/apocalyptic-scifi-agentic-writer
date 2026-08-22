@@ -25,6 +25,10 @@ role: 说明
 **硬规则**：每当你执行完本项目的一个工作流步骤（写正文、跑校验、改稿等），
 在收尾时调用一次下面的命令，把这一步的用量报上去。
 
+> **★这条最容易被漏（2026-08-22 教训）**：此前各 agent 基本没逐步上报——写了数十章正文，`正文生成` 却只记了个位数次调用，数据面板严重失真。**"每一步收尾都报"是硬规则、不是可选项**；哪怕只写了一章、跑了一次校验，也要报那一次。字数/token 估算即可，关键是**次数别漏**。
+>
+> **★上报会自动刷新数据面板**：`update_metrics.py` 写完 `metrics.json` 后会**自动重跑 `workflow_map.py`**，把新数值刷进 `graph.json` + `workflow_map.html`（数据面板是静态快照，不自动刷就会停在旧值——这一步已内置，你不用再手动跑图）。连报很多条时可加 `--no-sync` 跳过每条刷新、最后手动跑一次 `workflow_map.py` 统一刷。
+
 ```
 python3 ENGINE/tools/update_metrics.py --node <节点名> [--calls N] [--chars N] [--tokens N] [--rework N] [--note "备注"]
 ```
@@ -58,4 +62,5 @@ python3 ENGINE/tools/update_metrics.py --node 焦点卡校验 --calls 1 --tokens
 - **不知道节点叫什么**：`python3 ENGINE/tools/update_metrics.py --list` 列出所有节点名。
 - **节点名报歧义/找不到**：改用完整相对路径（如 `ENGINE/prompts/焦点卡.md`）。
 - **字数/token 数不精确**：估算即可，趋势比精度重要；实在没有就省略该参数。
-- **改完要不要刷图**：按项目硬规则，改了工作流 md 本来就要跑 `workflow_map.py`，那一步会顺带把最新数值刷进 `workflow_map.html`。只上报数值、没改结构时，不强制立刻刷图。
+- **要不要手动刷图**：★不用了。`update_metrics.py` 上报后会**自动刷** `graph.json` + `workflow_map.html`（内置重跑 map）。只有加了 `--no-sync`（批量连报）时才需要最后手动跑一次 `workflow_map.py`。
+- **历史数据不准怎么办**：2026-08-22 前的数值是少报的（见 `metrics.json` 的 `_说明`），**不补估**（补=造数、污染趋势）。自此如实逐步上报，让数据往前积累即可。

@@ -24,11 +24,34 @@ update_metrics.py —— 增量更新节点使用度量表(metrics.json)
     # 独立正文自查 判定必须修,导致一次返工
     python3 ENGINE/tools/update_metrics.py --node 自查修正 --calls 1 --chars 600 --tokens 4000 --rework 1
 """
-import os, sys, json, argparse, datetime
+import os, sys, json, argparse, datetime, subprocess
 
 TOOLS_DIR = os.path.dirname(os.path.abspath(__file__))
 METRICS_PATH = os.path.join(TOOLS_DIR, "metrics.json")
+MAP_SCRIPT = os.path.join(TOOLS_DIR, "workflow_map.py")
 ENGINE_ROOT = os.path.dirname(os.path.dirname(TOOLS_DIR))
+
+
+def sync_map():
+    """写完 metrics.json 后自动重跑 workflow_map.py,把新数值刷进 graph.json + workflow_map.html。
+    数据面板是静态快照(数值在跑 map 时被内嵌),只写 metrics.json 面板不会变——所以这里自动补上这步,
+    杜绝"上报了却忘了重跑 map、面板一直停在旧值"的坑。失败不致命(退化成提示手动跑)。"""
+    try:
+        r = subprocess.run([sys.executable, MAP_SCRIPT],
+                           capture_output=True, text=True, timeout=120)
+        if r.returncode == 0:
+            # 从 map 的控制台体检里捞出孤儿/断链/循环那几行做个一句话回显
+            tail = [ln for ln in r.stdout.splitlines()
+                    if any(k in ln for k in ("孤儿", "断链", "循环", "节点"))]
+            print("✓ 已自动刷新数据面板(graph.json + workflow_map.html)")
+            for ln in tail:
+                print("   " + ln.strip())
+            return True
+        print("⚠ 自动刷新数据面板失败(workflow_map.py 报错),请手动跑一次 workflow_map.py:")
+        print((r.stderr or r.stdout or "").strip()[:500])
+    except Exception as e:
+        print(f"⚠ 自动刷新数据面板未执行({e}),请手动跑一次 workflow_map.py。")
+    return False
 
 # CLI 参数 → metrics.json 里的中文字段
 FIELD_MAP = {"calls": "调用次数", "chars": "累计字数", "tokens": "累计token", "rework": "返工次数"}
@@ -68,6 +91,8 @@ def main():
     ap.add_argument("--rework", type=int, default=0)
     ap.add_argument("--note")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--no-sync", action="store_true",
+                    help="只写 metrics.json、不自动刷新数据面板(批量连报时用,最后再手动跑一次 workflow_map.py)")
     args = ap.parse_args()
 
     data = load()
@@ -115,7 +140,12 @@ def main():
         if inc:
             print(f"    {field}: {before[field]} → {row[field]}  (+{inc})")
     print(f"    末次更新: {row['末次更新']}")
-    print("提示:跑 workflow_map.py 可把最新数值刷进地图。")
+
+    # ★ 默认自动把新数值刷进数据面板(graph.json + html);--no-sync 时才退回手动
+    if args.no_sync:
+        print("提示:--no-sync 已跳过刷新;批量上报完记得手动跑一次 workflow_map.py 刷面板。")
+    else:
+        sync_map()
 
 
 if __name__ == "__main__":
